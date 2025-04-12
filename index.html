@@ -6,15 +6,78 @@
 		<title>Paper Rock Scisscors</title>
 
 		<style>
-			div { outline: rpx solid red; }
-			.left {float: left; }
-			.right {float: right; }
+			body 
+			{
+				text-align: center;
+				font-size: 14px;
+				font-family: verdana;
+			}
+
+			div { outline: 1px solid red; }
+
+			.gameContainer 
+			{
+				width: 100%;
+				height: 600px;
+			}
+
+			.player 
+			{
+				width: 45%; 
+			}
+
+			.left 
+			{
+				float: left; 
+			}
+
+			.right 
+			{
+				float: right; 
+			}
+
+			.dashboard 
+			{
+				width: 90%;
+				width: 200px;
+				margin:  0 auto 0 auto;
+			}
+
+			.dashboard button
+			{
+				width: 100px;
+				height: 100px;
+				border-radius: 5px;
+				margin-right: 5px;
+			}
 		</style>
 
 		<script>
 			let paprocksc = 
 			{
-				symbols: ["paper", "rock", "scissors"],
+				symbols: 
+				[
+					{
+						name: "paper",
+						beats: ["rock", "spock"]
+					},
+					{
+						name: "rock",
+						beats: ["lizard", "scissors"]
+					},
+					{
+						name: "scissors",
+						beats: ["paper", "lizard"]
+					},
+					{
+						name: "spock",
+						beats: ["scissors", "rock"]
+					},
+					{
+						name: "lizard",
+						beats: ["spock", "paper"]
+					},															
+				],
 				range: 3,
 				score: [0, 0],
 				round: 0,
@@ -31,11 +94,43 @@
 				{
 
 				},
+				xbeatsy: function(x, y)
+				{
+					if (x === y) return false;
+
+					return (this.symbols[x].beats.indexOf(y) > -1);
+				},
+				changeMode: function(range)
+				{
+					this.range = range;
+				}
 			};
 		</script>
 	</head>
 	
 	<body>
-		
+		<h1>Paper, Rock, Scissors</h1>
+		<select onchange="paprocksc.changeMode(this.value)">
+			<option value="3">Classic</option>
+			<option value="5">Extended</option>
+		</select>
+		<div class="gameContainer">
+			<div class="player left">
+				
+			</div>
+			<div class="player right">
+				
+			</div>
+			<hr />
+			<div class="dashboard">
+				<button id="btn_paper"></button>
+				<button id="btn_rock"></button>
+				<button id="btn_scissors"></button>
+				<button></button>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+		</div>
 	</body>
 </html>
