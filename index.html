@@ -24,6 +24,7 @@
 			.player 
 			{
 				width: 45%; 
+				height: 300px;
 			}
 
 			.left 
@@ -36,19 +37,37 @@
 				float: right; 
 			}
 
+			.symbol 
+			{
+				width: 200px;
+				height: 200px;
+				border-radius: 50%;
+				margin: 10px auto 0 auto;
+			}
+
 			.dashboard 
 			{
 				width: 90%;
-				width: 200px;
+				height: 200px;
 				margin:  0 auto 0 auto;
 			}
 
-			.dashboard button
+			.symbolBtn
 			{
 				width: 100px;
 				height: 100px;
 				border-radius: 5px;
 				margin-right: 5px;
+			}
+
+			.hidden
+			{
+				display: none;
+			}
+
+			hr
+			{
+				clear: both;
 			}
 		</style>
 
@@ -82,9 +101,30 @@
 				score: [0, 0],
 				round: 0,
 				active: false,
-				showOptions: function() 
+				started: false,
+				start: function()
 				{
 
+				},
+				stop: function()
+				{
+
+				},
+				showOptions: function() 
+				{
+					var btns = document.getElementsByClassName("symbolBtn");
+
+					for (var i = 0; i < btns.length; i ++)
+					{
+						if (i < this.range)
+						{
+							btns[i].className = "symbolBtn";
+						} 
+						else 
+						{
+							btns[i].className = "symbolBtn hidden";
+						}
+					}
 				},
 				startRound: function() 
 				{
@@ -103,6 +143,8 @@
 				changeMode: function(range)
 				{
 					this.range = range;
+					this.showOptions();
+					this.stop();
 				}
 			};
 		</script>
@@ -114,22 +156,22 @@
 			<option value="3">Classic</option>
 			<option value="5">Extended</option>
 		</select>
+		<button onclick="paprocksc.start()">Start</button>
+
 		<div class="gameContainer">
 			<div class="player left">
-				
+				<div id="player_0" class="symbol"></div>
 			</div>
 			<div class="player right">
-				
+				<div id="player_1" class="symbol"></div>
 			</div>
 			<hr />
 			<div class="dashboard">
-				<button id="btn_paper"></button>
-				<button id="btn_rock"></button>
-				<button id="btn_scissors"></button>
-				<button></button>
-				<button></button>
-				<button></button>
-				<button></button>
+				<button id="btn_paper" class="symbolBtn"></button>
+				<button id="btn_rock" class="symbolBtn"></button>
+				<button id="btn_scissors" class="symbolBtn"></button>
+				<button id="btn_spock" class="symbolBtn hidden"></button>
+				<button id="btn_lizard" class="symbolBtn hidden"></button>
 			</div>
 		</div>
 	</body>
