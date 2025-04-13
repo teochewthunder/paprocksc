@@ -13,12 +13,27 @@
 				font-family: verdana;
 			}
 
-			div { outline: 1px solid red; }
+			div { outline: 0px solid red; }
 
 			.gameContainer 
 			{
 				width: 100%;
 				height: 600px;
+			}
+
+			.topBtn
+			{
+				width: 5em;
+				height: 2em;
+				background-color: rgb(0, 0, 0);
+				color: rgb(255, 255, 255);
+				font-weight: bold;
+				border-radius: 3px;
+			}
+
+			button:hover
+			{
+				background-color: rgb(100, 100, 100);
 			}
 
 			.player 
@@ -43,6 +58,9 @@
 				height: 200px;
 				border-radius: 50%;
 				margin: 10px auto 0 auto;
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center center;
 			}
 
 			.dashboard 
@@ -99,16 +117,34 @@
 				],
 				range: 3,
 				score: [0, 0],
-				round: 0,
+				round: ["", ""],
 				active: false,
 				started: false,
 				start: function()
 				{
+					var ddlRange = document.getElementById("ddlRange");
+					this.range = ddlRange.value;
+					this.showOptions();
 
+					var btnStart = document.getElementById("btnStart");
+					var btnStop = document.getElementById("btnStop");
+
+					btnStart.className = "topBtn hidden";
+					btnStop.className = "topBtn";
 				},
 				stop: function()
 				{
+					this.range = 0;
+					this.showOptions();
 
+					var btnStart = document.getElementById("btnStart");
+					var btnStop = document.getElementById("btnStop");
+
+					btnStart.className = "topBtn";
+					btnStop.className = "topBtn hidden";
+
+					this.showSymbol(0, "");
+					this.showSymbol(1, "");
 				},
 				showOptions: function() 
 				{
@@ -134,6 +170,26 @@
 				{
 
 				},
+				chooseSymbol: function(symbol) 
+				{
+					if (!this.active) return;
+
+					if (symbol === "")
+					{
+						//at random
+					}
+					else 
+					{
+
+					}
+				},	
+				showSymbol: function(index, symbol) 
+				{
+					var imgUrl = "symbol" + (symbol === "" ? "" : "_" + symbol) + ".jpg";
+					var player = document.getElementById("player_" + index);
+
+					player.style.backgroundImage = "url(" + imgUrl + ")";
+				},			
 				xbeatsy: function(x, y)
 				{
 					if (x === y) return false;
@@ -143,7 +199,6 @@
 				changeMode: function(range)
 				{
 					this.range = range;
-					this.showOptions();
 					this.stop();
 				}
 			};
@@ -152,26 +207,27 @@
 	
 	<body>
 		<h1>Paper, Rock, Scissors</h1>
-		<select onchange="paprocksc.changeMode(this.value)">
+		<select id="ddlRange" onchange="paprocksc.changeMode(this.value)">
 			<option value="3">Classic</option>
 			<option value="5">Extended</option>
 		</select>
-		<button onclick="paprocksc.start()">Start</button>
+		<button id="btnStart" class="topBtn" onclick="paprocksc.start()">Start</button>
+		<button id="btnStop" class="topBtn hidden" onclick="paprocksc.stop()">Stop</button>
 
 		<div class="gameContainer">
 			<div class="player left">
-				<div id="player_0" class="symbol"></div>
+				<div id="player_0" class="symbol right" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<div class="player right">
-				<div id="player_1" class="symbol"></div>
+				<div id="player_1" class="symbol left" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<hr />
 			<div class="dashboard">
-				<button id="btn_paper" class="symbolBtn"></button>
-				<button id="btn_rock" class="symbolBtn"></button>
-				<button id="btn_scissors" class="symbolBtn"></button>
-				<button id="btn_spock" class="symbolBtn hidden"></button>
-				<button id="btn_lizard" class="symbolBtn hidden"></button>
+				<button id="btn_paper" class="symbolBtn hidden"><img src="symbol_paper.jpg" width="80" /></button>
+				<button id="btn_rock" class="symbolBtn hidden"><img src="symbol_rock.jpg" width="80" /></button>
+				<button id="btn_scissors" class="symbolBtn hidden"><img src="symbol_scissors.jpg" width="80" /></button>
+				<button id="btn_spock" class="symbolBtn hidden"><img src="symbol_spock.jpg" width="80" /></button>
+				<button id="btn_lizard" class="symbolBtn hidden"><img src="symbol_lizard.jpg" width="80" /></button>
 			</div>
 		</div>
 	</body>
