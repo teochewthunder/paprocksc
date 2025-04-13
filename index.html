@@ -61,7 +61,7 @@
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-position: center center;
-				outline: 5px solid rgb(255, 255, 255);
+				outline: 15px solid rgb(255, 255, 255);
 			}
 
 			.score 
@@ -227,7 +227,7 @@
 					};
 
 					var symbol = document.getElementById("player_" + index);
-					symbol.style.outline = "5px solid " + codes[colorCode];
+					symbol.style.outline = "15px solid " + codes[colorCode];
 				},
 				whowins: function()
 				{
@@ -252,10 +252,12 @@
 
 						if (winner1)
 						{
-							this.score[0] ++;
+							this.score[1] ++;
 							this.showColor(0, "loss");
 							this.showColor(1, "win");
 						}
+
+						this.showScore();
 					}
 
 					setTimeout
@@ -265,7 +267,7 @@
 							this.showSymbol(0, ""); 
 							this.showSymbol(1, ""); 
 							this.showColor(0, "end"); 
-							this.showColor(0, "end"); 
+							this.showColor(1, "end"); 
 							this.active = true;
 						},
 						1000
