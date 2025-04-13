@@ -61,6 +61,21 @@
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-position: center center;
+				outline: 5px solid rgb(255, 255, 255);
+			}
+
+			.score 
+			{
+				width: 150px;
+				height: 50px;
+				font-weght: bold;
+				font-size: 2em;
+				text-align: center;
+			}
+
+			.score small
+			{
+				font-size: 0.5em;
 			}
 
 			.dashboard 
@@ -131,6 +146,7 @@
 
 					btnStart.className = "topBtn hidden";
 					btnStop.className = "topBtn";
+					this.active = true;
 				},
 				stop: function()
 				{
@@ -145,6 +161,9 @@
 
 					this.showSymbol(0, "");
 					this.showSymbol(1, "");
+
+					this.score = [0, 0];
+					this.showScore();
 				},
 				showOptions: function() 
 				{
@@ -162,26 +181,25 @@
 						}
 					}
 				},
-				startRound: function() 
-				{
-
-				},
-				endRound: function() 
-				{
-
-				},
 				chooseSymbol: function(symbol) 
 				{
 					if (!this.active) return;
 
 					if (symbol === "")
 					{
-						//at random
+						var ptr = Math.floor(Math.random() * this.range);
+						this.round[1] = this.symbols[ptr].name;
+						return;
 					}
 					else 
 					{
-
+						this.round[0] = symbol;
+						this.chooseSymbol("");
 					}
+
+					this.showSymbol(0, this.round[0]);
+					this.showSymbol(1, this.round[1]);
+					this.whowins();
 				},	
 				showSymbol: function(index, symbol) 
 				{
@@ -189,17 +207,76 @@
 					var player = document.getElementById("player_" + index);
 
 					player.style.backgroundImage = "url(" + imgUrl + ")";
-				},			
+				},	
+				showScore: function()
+				{
+					var score0 = document.getElementById("score_0");
+					var score1 = document.getElementById("score_1");
+
+					score0.innerHTML = this.score[0];
+					score1.innerHTML = this.score[1];
+				},
+				showColor: function(index, colorCode)
+				{
+					var codes = 
+					{
+						win: "rgb(0, 255, 0)",
+						loss: "rgb(255, 0, 0)",
+						draw: "rgb(200, 200, 200)",
+						end: "rgb(255, 255, 255)",
+					};
+
+					var symbol = document.getElementById("player_" + index);
+					symbol.style.outline = "5px solid " + codes[colorCode];
+				},
+				whowins: function()
+				{
+					this.active = false;
+
+					var winner0 = this.xbeatsy(this.round[0], this.round[1]);
+					var winner1 = this.xbeatsy(this.round[1], this.round[0]);
+
+					if (!winner0 && !winner1) 
+					{
+						this.showColor(0, "draw");
+						this.showColor(1, "draw");
+					}
+					else
+					{
+						if (winner0)
+						{
+							this.score[0] ++;
+							this.showColor(0, "win");
+							this.showColor(1, "loss");
+						}
+
+						if (winner1)
+						{
+							this.score[0] ++;
+							this.showColor(0, "loss");
+							this.showColor(1, "win");
+						}
+					}
+
+					setTimeout
+					(
+						()=> 
+						{ 
+							this.showSymbol(0, ""); 
+							this.showSymbol(1, ""); 
+							this.showColor(0, "end"); 
+							this.showColor(0, "end"); 
+							this.active = true;
+						},
+						1000
+					);
+				},		
 				xbeatsy: function(x, y)
 				{
 					if (x === y) return false;
-
-					return (this.symbols[x].beats.indexOf(y) > -1);
-				},
-				changeMode: function(range)
-				{
-					this.range = range;
-					this.stop();
+					var symbol = this.symbols.filter((s)=> { return s.name === x});
+					console.log(symbol);
+					return (symbol[0].beats.indexOf(y) > -1);
 				}
 			};
 		</script>
@@ -207,7 +284,7 @@
 	
 	<body>
 		<h1>Paper, Rock, Scissors</h1>
-		<select id="ddlRange" onchange="paprocksc.changeMode(this.value)">
+		<select id="ddlRange" onchange="paprocksc.stop()">
 			<option value="3">Classic</option>
 			<option value="5">Extended</option>
 		</select>
@@ -216,18 +293,20 @@
 
 		<div class="gameContainer">
 			<div class="player left">
+				<div class="score right"><small>Score</small><br /><span id="score_0">0</span></div>
 				<div id="player_0" class="symbol right" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<div class="player right">
+				<div class="score left"><small>Score</small><br /><span id="score_1">0</span></div>
 				<div id="player_1" class="symbol left" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<hr />
 			<div class="dashboard">
-				<button id="btn_paper" class="symbolBtn hidden"><img src="symbol_paper.jpg" width="80" /></button>
-				<button id="btn_rock" class="symbolBtn hidden"><img src="symbol_rock.jpg" width="80" /></button>
-				<button id="btn_scissors" class="symbolBtn hidden"><img src="symbol_scissors.jpg" width="80" /></button>
-				<button id="btn_spock" class="symbolBtn hidden"><img src="symbol_spock.jpg" width="80" /></button>
-				<button id="btn_lizard" class="symbolBtn hidden"><img src="symbol_lizard.jpg" width="80" /></button>
+				<button id="btn_paper" class="symbolBtn hidden" onclick="paprocksc.chooseSymbol('paper')"><img src="symbol_paper.jpg" width="80" /></button>
+				<button id="btn_rock" class="symbolBtn hidden" onclick="paprocksc.chooseSymbol('rock')"><img src="symbol_rock.jpg" width="80" /></button>
+				<button id="btn_scissors" class="symbolBtn hidden" onclick="paprocksc.chooseSymbol('scissors')"><img src="symbol_scissors.jpg" width="80" /></button>
+				<button id="btn_spock" class="symbolBtn hidden" onclick="paprocksc.chooseSymbol('spock')"><img src="symbol_spock.jpg" width="80" /></button>
+				<button id="btn_lizard" class="symbolBtn hidden" onclick="paprocksc.chooseSymbol('lizard')"><img src="symbol_lizard.jpg" width="80" /></button>
 			</div>
 		</div>
 	</body>
