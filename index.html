@@ -131,15 +131,19 @@
 					},															
 				],
 				range: 3,
+				auto: false,
 				score: [0, 0],
 				round: ["", ""],
 				active: false,
 				started: false,
+				timer: null,
 				start: function()
 				{
 					var ddlRange = document.getElementById("ddlRange");
 					this.range = ddlRange.value;
-					this.showOptions();
+
+					var cbAuto = document.getElementById("cbAuto");
+					this.auto = cbAuto.checked;
 
 					var btnStart = document.getElementById("btnStart");
 					var btnStop = document.getElementById("btnStop");
@@ -147,6 +151,22 @@
 					btnStart.className = "topBtn hidden";
 					btnStop.className = "topBtn";
 					this.active = true;
+
+					if (this.auto)
+					{
+						this.timer = setInterval
+						(
+							() =>
+							{
+								this.chooseSymbol("auto");
+							},
+							1500
+						);
+					} 
+					else
+					{
+						this.showOptions();
+					}
 				},
 				stop: function()
 				{
@@ -164,6 +184,8 @@
 
 					this.score = [0, 0];
 					this.showScore();
+
+					if (this.timer !== null) clearInterval(this.timer);
 				},
 				showOptions: function() 
 				{
@@ -193,8 +215,17 @@
 					}
 					else 
 					{
-						this.round[0] = symbol;
-						this.chooseSymbol("");
+						if (symbol === "auto")
+						{
+							var ptr = Math.floor(Math.random() * this.range);
+							this.round[0] = this.symbols[ptr].name;
+						}
+						else
+						{
+							this.round[0] = symbol;
+						}
+						
+						this.chooseSymbol("");							
 					}
 
 					this.showSymbol(0, this.round[0]);
@@ -290,16 +321,18 @@
 			<option value="3">Classic</option>
 			<option value="5">Extended</option>
 		</select>
+		<input type="checkbox" id="cbAuto" onclick="paprocksc.stop()">Auto
+
 		<button id="btnStart" class="topBtn" onclick="paprocksc.start()">Start</button>
 		<button id="btnStop" class="topBtn hidden" onclick="paprocksc.stop()">Stop</button>
 
 		<div class="gameContainer">
 			<div class="player left">
-				<div class="score right"><small>Score</small><br /><span id="score_0">0</span></div>
+				<div class="score right"><small>You</small><br /><span id="score_0">0</span></div>
 				<div id="player_0" class="symbol right" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<div class="player right">
-				<div class="score left"><small>Score</small><br /><span id="score_1">0</span></div>
+				<div class="score left"><small>Computer</small><br /><span id="score_1">0</span></div>
 				<div id="player_1" class="symbol left" style="background-image: url(symbol.jpg);"></div>
 			</div>
 			<hr />
