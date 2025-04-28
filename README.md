@@ -13,8 +13,10 @@
 ## CSS
 
 ## JavaScript
-- `symbols`
-- `range`
+- `symbols`: An array of all possible symbols. Each symbol is an object with the properties...
+  - `name `: THis is a string which is the name of the current symbol. e.g, "rock"
+  - `beats`: This is an array containing strings. These strings are the names of symbols that the current symbol beats. e.g, ["scissors", "lizard"]
+- `range`: This is either 3 or 5. It represents the first `n` elements of the `symbols` array that will be in use.
 - `score`
 - `round`
 - `active`
