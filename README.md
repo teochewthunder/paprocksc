@@ -21,10 +21,17 @@
 - `round`: This is an array with two elements. The first element is a string representing the symbol that the user is using. The second element is a string representing the symbol that the computer is using.
 - `active`: A boolean that determiens if buttons are clickable.
 - `timer`: Used to set an interval if mode is Auto.
-- `start`:
-- `stop`:
-- `showOptions`: Uses `range` to decide which symbol buttons to show.
-- `chooseSymbol`
+- `start()`:
+- `stop()`:
+- `showOptions()`: Uses `range` to decide which symbol buttons to show.
+- `chooseSymbol(symbol)`:
+  - if `active` is `false`, exit method.
+  - `symbol` can be "", "auto" or ("rock", "paper", "scissors", "spock", "lizard")
+    - "": randomly select a symbol for the second element of `round`. Exit method.
+    - "auto": randomly select a symbol for the first element of `round`. Then run `chooseSymbol()` recursively with "" as argument.
+    - ("rock", "paper", "scissors", "spock", "lizard"): the value will be the first value of `round`. Then run `chooseSymbol()` recursively with "" as argument.
+  - run `showSymbol()` to show the appropriate symbols in `round`.
+  - run `whowins()`.
 - `showSymbol`
 - `showScore`
 - `showColor`
