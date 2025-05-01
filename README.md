@@ -32,8 +32,8 @@
     - ("rock", "paper", "scissors", "spock", "lizard"): the value will be the first value of `round`. Then run `chooseSymbol()` recursively with "" as argument.
   - run `showSymbol()` to show the appropriate symbols in `round`.
   - run `whowins()`.
-- `showSymbol`
-- `showScore`
-- `showColor`
-- `whowins`
-- `xbeatsy`
+- `showSymbol(index, symbol)`: Uses `symbol` as the background image for the div referenced by `index`.
+- `showScore()`: Displays the values of the `score` property in the appropriate placeholders.
+- `showColor(index, colorCode)`: Uses `colorCode` as the outline color for the div referenced by `index`.
+- `whowins()`:
+- `xbeatsy(x, y)`: `x` references the element in `symbols` where `x` matches the `name` property. Returns `true` if `y` is in the `beats` array of that element, `false` otherwise.
