@@ -22,6 +22,13 @@
 - `active`: A boolean that determiens if buttons are clickable.
 - `timer`: Used to set an interval if mode is Auto.
 - `start()`:
+  - determine if game is in Classic or Extended Mode. (`range` is then set)
+  - determine if game is in Auto Mode. (`auto` is then set)
+  - hide Start button, show Stop button.
+  - set `active` to `true`.
+  - if game is in Auto Mode:
+    - run `chooseSymbol()` with "auto" as an argument, every 1.5 seconds.
+    -  otherwise, run `showOptions()`.
 - `stop()`:
 - `showOptions()`: Uses `range` to decide which symbol buttons to show.
 - `chooseSymbol(symbol)`:
