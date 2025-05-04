@@ -30,6 +30,11 @@
     - run `chooseSymbol()` with "auto" as an argument, every 1.5 seconds.
     -  otherwise, run `showOptions()`.
 - `stop()`:
+  - hide all symbol buttons
+  - hide Stop button, show Start button.
+  - reset both user and computer displays to Question Marks.
+  - reset both scores to 0 in `score`.
+  - if `timer` is running, clear it.
 - `showOptions()`: Uses `range` to decide which symbol buttons to show.
 - `chooseSymbol(symbol)`:
   - if `active` is `false`, exit method.
