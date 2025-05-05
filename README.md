@@ -48,4 +48,13 @@
 - `showScore()`: Displays the values of the `score` property in the appropriate placeholders.
 - `showColor(index, colorCode)`: Uses `colorCode` as the outline color for the div referenced by `index`.
 - `whowins()`:
+  - set `active` to `false`.
+  - determines if user beats computer or computer beats user
+    - if draw, draw grey outlines on both divs.
+    - if user beats computer, draw green outline around user and red outline around computer, increment score for user, and update score display.
+    - if computer beats user, draw green outline around computer and red outline around user, increment score for computer, and update score display.
+  - after 1 second
+    - reset both user and computer displays to Question Marks.
+    - reset both user and computer outlines to white.
+    - set `active` to `true`.
 - `xbeatsy(x, y)`: `x` references the element in `symbols` where `x` matches the `name` property. Returns `true` if `y` is in the `beats` array of that element, `false` otherwise.
