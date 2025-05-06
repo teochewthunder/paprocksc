@@ -9,6 +9,13 @@
 - `symbol_lizard.jpg` image for Lizard
 
 ## HTML
+This consists of three main parts.
+- Header
+  - Drop-down List to select Classic of Extended Mode.
+  - Checkbox to enable/disable Auto Mode.
+  - Start and Stop button.
+- Display
+- Dashboard
 
 ## CSS
 
