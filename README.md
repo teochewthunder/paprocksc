@@ -1,4 +1,4 @@
-# Paper Rock Scissors Game (TBA)
+# Paper Rock Scissors Game
 
 ## Images used
 - `symbol.jpg` default image
@@ -16,8 +16,6 @@ This consists of three main parts.
   - Start and Stop button.
 - Display
 - Dashboard
-
-## CSS
 
 ## JavaScript
 - `symbols`: An array of all possible symbols. Each symbol is an object with the properties...
